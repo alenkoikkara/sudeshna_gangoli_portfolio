@@ -28,8 +28,17 @@ export function Dock() {
               onMouseLeave={() => setHoveredId(null)}
             >
               {/* Tooltip */}
-              <div className="absolute -top-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-3 py-1.5 bg-black/60 backdrop-blur-md text-white text-sm font-medium rounded-lg whitespace-nowrap pointer-events-none border border-white/10 shadow-lg">
-                {item.label}
+              <div className="absolute -top-14 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 px-3 py-1.5 bg-white/20 dark:bg-black/40 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.2)] text-foreground text-sm font-medium rounded-xl whitespace-nowrap pointer-events-none flex flex-col items-center">
+                {/* Border Mask to hide the line between div and bulge */}
+                <div 
+                  className="absolute inset-0 rounded-xl border border-white/40 dark:border-white/20 pointer-events-none"
+                  style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, calc(50% + 10px) 100%, calc(50% + 10px) calc(100% - 4px), calc(50% - 10px) calc(100% - 4px), calc(50% - 10px) 100%, 0% 100%)' }}
+                />
+                
+                <span className="relative z-10">{item.label}</span>
+                
+                {/* Rounded Arrow Bulge */}
+                <div className="absolute -bottom-[6px] left-1/2 -translate-x-1/2 w-[14px] h-[14px] bg-white/20 dark:bg-black/40 backdrop-blur-2xl border-b border-r border-white/40 dark:border-white/20 rotate-45 rounded-[3px]" />
               </div>
               
               {/* Icon Container */}

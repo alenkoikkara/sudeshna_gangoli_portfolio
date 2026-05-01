@@ -42,10 +42,10 @@
     @media (prefers-color-scheme: dark) {
         :root {
             /* Dark Mode */
-            --color-bg: #09090b;
+            --color-bg: #000000;
             --color-text: #fafafa;
 
-            --color-surface-bg: #18181b;
+            --color-surface-bg: #000000;
 
             --color-border-line: #27272a;
 

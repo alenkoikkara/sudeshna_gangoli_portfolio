@@ -1,10 +1,14 @@
+import { useState } from 'react';
 import { Dock } from './components/Dock';
 import { MenuBar } from './components/MenuBar';
+import { MacBootScreen } from './components/MacBootScreen';
 
 function App() {
+  const [hasBooted, setHasBooted] = useState(false);
 
   return (
     <main className="h-screen w-screen relative overflow-hidden bg-surface">
+      {!hasBooted && <MacBootScreen onComplete={() => setHasBooted(true)} />}
       {/* Abstract Glass Background */}
       {/* <div className="absolute inset-0 z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-purple-400/30 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen" />
