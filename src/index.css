@@ -12,6 +12,17 @@
     --color-border: var(--color-border-line);
 }
 
+@layer utilities {
+    @keyframes shake {
+        0%, 100% { transform: rotate(0deg); }
+        25% { transform: rotate(-12deg) scale(1.1); }
+        75% { transform: rotate(12deg) scale(1.1); }
+    }
+    .animate-shake {
+        animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    }
+}
+
 @layer base {
     :root {
         /* Light Mode */
