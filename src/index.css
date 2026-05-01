@@ -1,1 +1,52 @@
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,300,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-sans: 'Satoshi', system-ui, sans-serif;
+  --font-serif: 'Newsreader', serif;
+  --color-primary: var(--color-primary-base);
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text);
+  --color-surface: var(--color-surface-bg);
+  --color-border: var(--color-border-line);
+}
+
+@layer base {
+  :root {
+    /* Light Mode */
+    --color-bg: rgba(255, 255, 255, 0.97);
+    --color-text: #09090b;
+    
+    /* Surfaces / Cards */
+    --color-surface-bg: #ffffff;
+    
+    /* Borders & Dividers */
+    --color-border-line: #e4e4e7;
+
+    /* Primary Brand Color (Elegant Indigo) */
+    --color-primary-base: #4f46e5;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      /* Dark Mode */
+      --color-bg: #09090b;
+      --color-text: #fafafa;
+      
+      --color-surface-bg: #18181b;
+      
+      --color-border-line: #27272a;
+
+      --color-primary-base: #818cf8;
+    }
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Satoshi', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
