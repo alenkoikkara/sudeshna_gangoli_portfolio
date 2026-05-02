@@ -18,14 +18,12 @@ interface DockProps {
 }
 
 export function Dock({ onOpenApp, activeApps = [] }: DockProps) {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [, setHoveredId] = useState<string | null>(null);
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
       <div className="flex items-end gap-3 px-4 py-3 rounded-3xl bg-white/10 dark:bg-black/20 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
         {dockItems.map((item) => {
-          const isHovered = hoveredId === item.id;
-          
           return (
             <div
               key={item.id}

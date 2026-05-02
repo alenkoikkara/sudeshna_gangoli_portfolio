@@ -47,7 +47,7 @@ const editComebacks = [
   "Hey! I wrote that for a reason."
 ];
 
-export function StickyWidget({ id, initialX, initialY, color = 'yellow', defaultText = '', zIndex = 5 }: StickyWidgetProps) {
+export function StickyWidget({ initialX, initialY, color = 'yellow', defaultText = '', zIndex = 5 }: StickyWidgetProps) {
   const noteRef = useRef<HTMLDivElement>(null);
   
   // Always use default text now, ignore localStorage so visitor can't permanently delete notes
