@@ -9,9 +9,15 @@ const dockItems = [
   { id: 'project1', lightImage: reactIcon, darkImage: reactIcon, label: 'OCAD' },
   { id: 'project2', lightImage: viteIcon, darkImage: viteIcon, label: 'Syncro' },
   { id: 'project3', lightImage: reactIcon, darkImage: reactIcon, label: 'Design' },
+  { id: 'about', lightImage: reactIcon, darkImage: reactIcon, label: 'About Me' },
 ];
 
-export function Dock() {
+interface DockProps {
+  onOpenApp?: (id: string) => void;
+  activeApps?: string[];
+}
+
+export function Dock({ onOpenApp, activeApps = [] }: DockProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   return (
@@ -43,6 +49,7 @@ export function Dock() {
               
               {/* Icon Container */}
               <button 
+                onClick={() => onOpenApp && item.id !== 'home' ? onOpenApp(item.id) : null}
                 className="cursor-pointer flex items-center justify-center w-12 h-12 rounded-2xl bg-linear-to-tr from-white/10 to-white/30 dark:from-white/5 dark:to-white/10 border border-white/30 dark:border-white/10 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
               >
                 <>
@@ -58,6 +65,12 @@ export function Dock() {
                   />
                 </>
               </button>
+              {/* Active Indicator Dot */}
+              <div 
+                className={`absolute -bottom-2 w-1 h-1 rounded-full bg-black/40 dark:bg-white/60 transition-opacity duration-300 ${
+                  activeApps.includes(item.id) ? 'opacity-100' : 'opacity-0'
+                }`}
+              />
             </div>
           );
         })}

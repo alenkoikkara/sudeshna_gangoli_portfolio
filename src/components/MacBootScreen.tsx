@@ -51,7 +51,7 @@ export function MacBootScreen({ onComplete }: { onComplete: () => void }) {
 
       <div className={`absolute flex items-center justify-center transition-all duration-700 delay-200 ${showText ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
         <span className="text-white font-bold text-3xl sm:text-4xl tracking-tight">
-          Sudeshna Gangoli
+          Sudeshna Gangoli.
         </span>
       </div>
     </div>
