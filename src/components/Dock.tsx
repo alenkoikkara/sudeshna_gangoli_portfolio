@@ -50,24 +50,20 @@ export function Dock({ onOpenApp, activeApps = [] }: DockProps) {
               {/* Icon Container */}
               <button 
                 onClick={() => onOpenApp && item.id !== 'home' ? onOpenApp(item.id) : null}
-                className="cursor-pointer flex items-center justify-center w-12 h-12 rounded-2xl bg-linear-to-tr from-white/10 to-white/30 dark:from-white/5 dark:to-white/10 border border-white/30 dark:border-white/10 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl text-black dark:text-white"
+                className="cursor-pointer flex items-center justify-center w-12 h-12 rounded-2xl bg-linear-to-tr from-white/10 to-white/30 dark:from-white/5 dark:to-white/10 border border-white/30 dark:border-white/10 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
               >
-                {item.icon ? (
-                  <item.icon className="w-6 h-6" />
-                ) : (
-                  <>
-                    <img 
-                      src={item.lightImage}
-                      alt={item.label}
-                      className="w-6 h-6 object-contain dark:hidden" 
-                    />
-                    <img 
-                      src={item.darkImage}
-                      alt={item.label}
-                      className="w-6 h-6 object-contain hidden dark:block" 
-                    />
-                  </>
-                )}
+                <>
+                  <img 
+                    src={item.lightImage}
+                    alt={item.label}
+                    className="w-6 h-6 object-contain dark:hidden" 
+                  />
+                  <img 
+                    src={item.darkImage}
+                    alt={item.label}
+                    className="w-6 h-6 object-contain hidden dark:block" 
+                  />
+                </>
               </button>
               {/* Active Indicator Dot */}
               <div 
