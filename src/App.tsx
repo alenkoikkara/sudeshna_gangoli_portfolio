@@ -4,6 +4,7 @@ import { MenuBar } from './components/MenuBar';
 import { MacBootScreen } from './components/MacBootScreen';
 import { AppWindow } from './components/AppWindow';
 import { DotGrid } from './components/DotGrid';
+import { StickyWidget } from './components/StickyWidget';
 
 export interface AppData {
   id: string;
@@ -25,6 +26,7 @@ function App() {
       { id: 'project1', title: 'OCAD University', isOpen: openAppId === 'project1', isMinimized: false, isFullscreen: false, zIndex: 10 },
       { id: 'project2', title: 'Syncro', isOpen: openAppId === 'project2', isMinimized: false, isFullscreen: false, zIndex: 10 },
       { id: 'project3', title: 'Design Projects', isOpen: openAppId === 'project3', isMinimized: false, isFullscreen: false, zIndex: 10 },
+      { id: 'about', title: 'About Me', isOpen: openAppId === 'about', isMinimized: false, isFullscreen: false, zIndex: 10 },
     ];
   });
   const [isTextHover, setIsTextHover] = useState(false);
@@ -147,6 +149,28 @@ function App() {
           </div>
         </div>
       </div>
+
+      {/* Sticky Notes */}
+      {hasBooted && (
+        <>
+          <StickyWidget 
+            id="note-1" 
+            initialX={typeof window !== 'undefined' ? window.innerWidth - 340 : 800} 
+            initialY={100} 
+            color="yellow" 
+            defaultText={"Scribblings for next project:\n\n- Fix grid padding\n- Setup CMS data\n- Polish animations ✨"} 
+            zIndex={5}
+          />
+          <StickyWidget 
+            id="note-2" 
+            initialX={typeof window !== 'undefined' ? window.innerWidth - 300 : 850} 
+            initialY={380} 
+            color="pink" 
+            defaultText={"Current Activities:\n\nBuilding out this amazing OS-style portfolio! 🚀"} 
+            zIndex={6}
+          />
+        </>
+      )}
 
       {/* Dock */}
       <Dock 
