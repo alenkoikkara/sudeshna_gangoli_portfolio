@@ -123,7 +123,7 @@ function App() {
       {/* Custom Text Cursor */}
       <div 
         ref={cursorRef}
-        className={`pointer-events-none w-[2px] h-12 bg-black dark:bg-white rounded-sm fixed top-0 left-0 z-[9999] transition-opacity duration-300 mix-blend-difference text-white ${isTextHover ? 'opacity-100' : 'opacity-0'}`}
+        className={`pointer-events-none w-[2px] h-12 bg-black dark:bg-white rounded-sm fixed top-0 left-0 z-9999 transition-opacity duration-300 mix-blend-difference text-white ${isTextHover ? 'opacity-100' : 'opacity-0'}`}
         style={{ transform: `translate(-50%, -50%)` }}
       >
       </div>

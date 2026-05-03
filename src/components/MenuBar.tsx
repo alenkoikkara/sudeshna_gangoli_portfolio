@@ -30,7 +30,7 @@ export function MenuBar() {
                 style={{ clipPath: 'polygon(0% 100%, 100% 100%, 100% 0%, calc(24px + 10px) 0%, calc(24px + 10px) 4px, calc(24px - 10px) 4px, calc(24px - 10px) 0%, 0% 0%)' }}
               />
               {/* Rounded Arrow Bulge pointing up */}
-              <div className="absolute -top-[6px] left-[24px] -translate-x-1/2 w-[14px] h-[14px] bg-white/20 dark:bg-black/30 backdrop-blur-2xl border-t border-l border-white/40 dark:border-white/20 rotate-45 rounded-[3px]" />
+              <div className="absolute top-[-6px] left-[24px] -translate-x-1/2 w-[14px] h-[14px] bg-white/20 dark:bg-black/30 backdrop-blur-2xl border-t border-l border-white/40 dark:border-white/20 rotate-45 rounded-[3px]" />
               
               <div className="relative z-10 flex gap-1 w-full">
                 <a href="#" className="group/social flex items-center gap-3 px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-colors text-sm">
@@ -57,7 +57,7 @@ export function MenuBar() {
                 style={{ clipPath: 'polygon(0% 100%, 100% 100%, 100% 0%, calc(24px + 10px) 0%, calc(24px + 10px) 4px, calc(24px - 10px) 4px, calc(24px - 10px) 0%, 0% 0%)' }}
               />
               {/* Rounded Arrow Bulge pointing up */}
-              <div className="absolute -top-[6px] left-[24px] -translate-x-1/2 w-[14px] h-[14px] bg-white/20 dark:bg-black/30 backdrop-blur-2xl border-t border-l border-white/40 dark:border-white/20 rotate-45 rounded-[3px]" />
+              <div className="absolute top-[-6px] left-[24px] -translate-x-1/2 w-[14px] h-[14px] bg-white/20 dark:bg-black/30 backdrop-blur-2xl border-t border-l border-white/40 dark:border-white/20 rotate-45 rounded-[3px]" />
               
               <div className="relative z-10 flex flex-col gap-1 w-full">
                 <button

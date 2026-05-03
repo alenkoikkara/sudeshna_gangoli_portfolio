@@ -228,13 +228,13 @@ export function StickyWidget({ initialX, initialY, color = 'yellow', defaultText
       />
       
       {/* Folded Corner Flap */}
-      <div className="absolute bottom-0 right-0 w-[28px] h-[28px] bg-gradient-to-tl from-black/0 via-black/10 to-black/20 dark:from-white/0 dark:via-white/20 dark:to-white/40 shadow-[-3px_-3px_8px_rgba(0,0,0,0.15)] dark:shadow-[-3px_-3px_8px_rgba(0,0,0,0.4)] rounded-tl-lg pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[28px] h-[28px] bg-linear-to-tl from-black/0 via-black/10 to-black/20 dark:from-white/0 dark:via-white/20 dark:to-white/40 shadow-[-3px_-3px_8px_rgba(0,0,0,0.15)] dark:shadow-[-3px_-3px_8px_rgba(0,0,0,0.4)] rounded-tl-lg pointer-events-none" />
       </div>
 
       {/* Sudeshna Ghost Cursor */}
       {ghostCursor.visible && typeof window !== 'undefined' && typeof document !== 'undefined' && createPortal(
         <div 
-          className="fixed z-[99999] pointer-events-none w-0 h-0"
+          className="fixed z-99999 pointer-events-none w-0 h-0"
           style={{ 
             left: ghostCursor.x, 
             top: ghostCursor.y,

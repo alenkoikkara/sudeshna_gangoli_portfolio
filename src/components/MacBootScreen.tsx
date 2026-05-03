@@ -36,7 +36,7 @@ export function MacBootScreen({ onComplete }: { onComplete: () => void }) {
 
   return (
     <div 
-      className={`fixed inset-0 z-100 bg-black flex flex-col items-center justify-center transition-opacity duration-[800ms] ease-in-out ${isFadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+      className={`fixed inset-0 z-100 bg-black flex flex-col items-center justify-center transition-opacity duration-800 ease-in-out ${isFadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
     >
       <div className={`absolute flex items-center justify-center transition-all duration-500 ${showText ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}>
         {/* Progress Bar Container */}

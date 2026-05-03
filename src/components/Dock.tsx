@@ -1,13 +1,14 @@
 import homeIconDark from '../assets/icons/dark/Home_2.png';
 import homeIconLight from '../assets/icons/light/Home_2.png';
+import logosnycro from '../assets/logos/logosyncro.png';
+import logosnycro_dark from '../assets/logos/logosyncro.png';
 import reactIcon from '../assets/react.svg';
-import viteIcon from '../assets/vite.svg';
 import { useState } from 'react';
 
 const dockItems = [
   { id: 'home', lightImage: homeIconLight, darkImage: homeIconDark, label: 'Home' },
   { id: 'project1', lightImage: reactIcon, darkImage: reactIcon, label: 'OCAD' },
-  { id: 'project2', lightImage: viteIcon, darkImage: viteIcon, label: 'Syncro' },
+  { id: 'project2', lightImage: logosnycro, darkImage: logosnycro_dark, label: 'Syncro' },
   { id: 'project3', lightImage: reactIcon, darkImage: reactIcon, label: 'Design' },
   { id: 'about', lightImage: reactIcon, darkImage: reactIcon, label: 'About Me' },
 ];
@@ -42,7 +43,7 @@ export function Dock({ onOpenApp, activeApps = [] }: DockProps) {
                 <span className="relative z-10">{item.label}</span>
                 
                 {/* Rounded Arrow Bulge */}
-                <div className="absolute -bottom-[6px] left-1/2 -translate-x-1/2 w-[14px] h-[14px] bg-white/20 dark:bg-black/40 backdrop-blur-2xl border-b border-r border-white/40 dark:border-white/20 rotate-45 rounded-[3px]" />
+                <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-[14px] h-[14px] bg-white/20 dark:bg-black/40 backdrop-blur-2xl border-b border-r border-white/40 dark:border-white/20 rotate-45 rounded-[3px]" />
               </div>
               
               {/* Icon Container */}
@@ -53,13 +54,13 @@ export function Dock({ onOpenApp, activeApps = [] }: DockProps) {
                 <>
                   <img 
                     src={item.lightImage}
-                    alt={item.label}
-                    className="w-6 h-6 object-contain dark:hidden" 
+                    alt={item.label} 
+                    className="rounded-lg w-full h-6 object-fill dark:hidden" 
                   />
                   <img 
                     src={item.darkImage}
                     alt={item.label}
-                    className="w-6 h-6 object-contain hidden dark:block" 
+                    className="rounded-lg w-6 h-6 object-fill hidden dark:block" 
                   />
                 </>
               </button>
