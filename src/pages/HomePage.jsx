@@ -14,6 +14,8 @@ import rollb from '../assets/icons/rollb.png'
 import startupc from '../assets/icons/startupc.png'
 import startupb from '../assets/icons/startupb.png'
 
+import asap1 from '../assets/asap/Container-1.png'
+
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
@@ -166,8 +168,8 @@ export default function HomePage() {
             { title: 'ReturnLoop', subtitle: 'Digital Exhibition' },
             { title: 'PetClear', subtitle: 'Interactive Guide' }
           ].map((item, idx) => (
-            <a href="#" key={idx} className="snap-target h-screen w-full relative flex items-end justify-end px-10 md:px-20 group cursor-pointer">
-              <div className="z-2 w-full max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-center gap-20 md:gap-24">
+            <a href="#" key={idx} className="snap-target h-screen w-full relative flex items-center justify-center px-0 md:px-0 group cursor-pointer">
+              <div className="z-2 w-full max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-center">
 
                 {/* Left Content */}
                 <div className="flex flex-col items-end text-right md:w-1/2">
@@ -179,8 +181,11 @@ export default function HomePage() {
                 </div>
 
                 {/* Right Content - iMac G3 */}
-                <div className="w-full md:w-1/2 flex items-center justify-center pointer-events-none">
-                  <img src={imacg3Img} alt="iMac G3" className="w-full max-w-[500px] h-auto object-contain drop-shadow-2xl transition-transform duration-700 group-hover:scale-105" />
+                <div className="w-full md:w-1/2 flex items-start justify-start pointer-events-none pl-30">
+                  <img src={asap1} alt="iMac G3" className="w-full max-w-[300px] h-auto object-contain drop-shadow-2xl transition-transform duration-700 group-hover:scale-105" />
+                  <img src={asap1} alt="iMac G3" className="w-full max-w-[300px] h-auto object-contain drop-shadow-2xl transition-transform duration-700 group-hover:scale-105" />
+                  <img src={asap1} alt="iMac G3" className="w-full max-w-[300px] h-auto object-contain drop-shadow-2xl transition-transform duration-700 group-hover:scale-105" />
+                  <img src={asap1} alt="iMac G3" className="w-full max-w-[300px] h-auto object-contain drop-shadow-2xl transition-transform duration-700 group-hover:scale-105" />
                 </div>
 
               </div>
