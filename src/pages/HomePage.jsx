@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useLayoutEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
@@ -15,7 +15,12 @@ import startupc from '../assets/icons/startupc.png'
 import startupb from '../assets/icons/startupb.png'
 
 import asap1 from '../assets/asap/Container-1.png'
+import asap2 from '../assets/asap/Container-2.png'
+import asap3 from '../assets/asap/Container-3.png'
 
+import { caseStudiesData } from '../data/caseStudiesData'
+import OCADCaseStudyView from '../components/OCADCaseStudyView'
+import GenericCaseStudyView from '../components/GenericCaseStudyView'
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
@@ -27,6 +32,11 @@ export default function HomePage() {
   const aboutRef = useRef(null)
 
   const [activeIndex, setActiveIndex] = useState(0)
+
+  // Transition and Case Study states
+  const [selectedProject, setSelectedProject] = useState(null)
+  const [transitionState, setTransitionState] = useState('idle') // 'idle' | 'animating-in' | 'open' | 'animating-out'
+  const [clickedIndex, setClickedIndex] = useState(null)
 
   const sections = [
     { ref: homeRef, id: 'home', text: 'Sudeshna Gangoli.' },
@@ -81,8 +91,6 @@ export default function HomePage() {
       })
     })
 
-
-
     // Smooth Elastic Snapping behavior
     ScrollTrigger.create({
       trigger: innerRef.current,
@@ -101,13 +109,221 @@ export default function HomePage() {
     ScrollTrigger.refresh()
   }, { scope: containerRef })
 
+  // Disable / Enable main page scroll
+  const disableScroll = () => {
+    if (containerRef.current) {
+      containerRef.current.style.overflow = 'hidden'
+    }
+  }
+
+  const enableScroll = () => {
+    if (containerRef.current) {
+      containerRef.current.style.overflow = 'auto'
+    }
+  }
+
+  // FLIP animations logic inside useLayoutEffect
+  useLayoutEffect(() => {
+    if (selectedProject && transitionState === 'animating-in') {
+      const sourceEl = document.querySelector(`#project-title-${clickedIndex} span`)
+      const targetEl = document.querySelector('.case-study-bg-text span')
+      
+      if (!sourceEl || !targetEl) {
+        setTransitionState('open')
+        return
+      }
+
+      // Capture rects
+      const sourceRect = sourceEl.getBoundingClientRect()
+      const targetRect = targetEl.getBoundingClientRect()
+
+      const sourceStyle = window.getComputedStyle(sourceEl)
+
+      // Apply layout scroll restrictions
+      disableScroll()
+
+      // Hide original title & default background texts
+      gsap.set(sourceEl, { opacity: 0 })
+      gsap.to('.bg-text', { opacity: 0, duration: 0.4, overwrite: 'auto' })
+      
+      // Fade out home page inner scroll items
+      gsap.to(innerRef.current, {
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power2.out',
+        overwrite: 'auto'
+      })
+
+      // Fade in case study background color
+      gsap.to('.case-study-overlay', {
+        backgroundColor: 'rgba(255, 255, 255, 1)',
+        duration: 1.4,
+        ease: 'power3.inOut'
+      })
+
+      // Fade and slide up content blocks inside case study container
+      const contentBlocks = gsap.utils.toArray('.case-study-content > div > *')
+      gsap.fromTo(contentBlocks,
+        {
+          opacity: 0,
+          y: 40,
+          filter: 'blur(5px)'
+        },
+        {
+          opacity: 1,
+          y: 0,
+          filter: 'blur(0px)',
+          duration: 1.2,
+          stagger: 0.15,
+          ease: 'power3.out',
+          delay: 0.3,
+          overwrite: 'auto'
+        }
+      )
+
+      // Calculate translation and scale
+      const scale = sourceRect.width / targetRect.width
+
+      // Animate the actual target element directly from source position to target position
+      gsap.fromTo(targetEl,
+        {
+          x: sourceRect.left - targetRect.left,
+          y: sourceRect.top - targetRect.top,
+          scale: scale,
+          color: sourceStyle.color,
+          opacity: 1,
+          transformOrigin: 'left top'
+        },
+        {
+          x: 0,
+          y: 0,
+          scale: 1,
+          color: '#4a4a4a', // var(--color-surface-text)
+          opacity: 0.1,
+          duration: 1.4,
+          ease: 'cubic-bezier(0.32, 0.72, 0, 1)', // Emil custom ease
+          onComplete: () => {
+            setTransitionState('open')
+          }
+        }
+      )
+    }
+  }, [selectedProject, transitionState, clickedIndex])
+
+  useLayoutEffect(() => {
+    if (transitionState === 'animating-out') {
+      const sourceEl = document.querySelector(`#project-title-${clickedIndex} span`)
+      const targetEl = document.querySelector('.case-study-bg-text span')
+
+      if (!sourceEl || !targetEl) {
+        setSelectedProject(null)
+        setTransitionState('idle')
+        enableScroll()
+        return
+      }
+
+      const sourceRect = sourceEl.getBoundingClientRect()
+      const targetRect = targetEl.getBoundingClientRect()
+
+      const sourceStyle = window.getComputedStyle(sourceEl)
+
+      // Hide the details background placeholder
+      gsap.set(targetEl, { opacity: 0 })
+
+      // Fade out case study content blocks
+      const contentBlocks = gsap.utils.toArray('.case-study-content > div > *')
+      gsap.to(contentBlocks, {
+        opacity: 0,
+        y: -30,
+        filter: 'blur(5px)',
+        duration: 0.6,
+        stagger: 0.05,
+        ease: 'power2.in'
+      })
+
+      // Fade case study overlay back to transparent
+      gsap.to('.case-study-overlay', {
+        backgroundColor: 'rgba(255, 255, 255, 0)',
+        duration: 1.0,
+        ease: 'power3.inOut'
+      })
+
+      const scale = sourceRect.width / targetRect.width
+
+      // Animate the actual target element back down to the source list position
+      gsap.fromTo(targetEl,
+        {
+          x: 0,
+          y: 0,
+          scale: 1,
+          color: '#4a4a4a',
+          opacity: 0.1,
+          transformOrigin: 'left top'
+        },
+        {
+          x: sourceRect.left - targetRect.left,
+          y: sourceRect.top - targetRect.top,
+          scale: scale,
+          color: sourceStyle.color,
+          opacity: 1,
+          duration: 1.2,
+          ease: 'cubic-bezier(0.32, 0.72, 0, 1)',
+          onComplete: () => {
+            gsap.set(sourceEl, { opacity: 1 })
+            setSelectedProject(null)
+            setTransitionState('idle')
+            setClickedIndex(null)
+            enableScroll()
+          }
+        }
+      )
+
+      // Fade home list content back in
+      gsap.to(innerRef.current, {
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power2.out',
+        overwrite: 'auto'
+      })
+
+      // Fade default bg text elements back in based on scroll position
+      const texts = gsap.utils.toArray('.bg-text')
+      gsap.to(texts, {
+        y: (idx) => {
+          if (idx === activeIndex) {
+            return activeIndex === 0 ? '0vh' : '-22vh'
+          }
+          return idx < activeIndex ? '-100vh' : '100vh'
+        },
+        opacity: (idx) => (idx === activeIndex ? 0.1 : 0),
+        duration: 0.8,
+        ease: 'power2.out',
+        overwrite: 'auto'
+      })
+    }
+  }, [transitionState, clickedIndex, selectedProject, activeIndex])
+
   const handleNavClick = (e, id) => {
     e.preventDefault()
+    if (selectedProject) return
     gsap.to(containerRef.current, {
       duration: 1.2,
       scrollTo: `#${id}`,
       ease: "power3.inOut"
     })
+  }
+
+  const handleProjectClick = (e, item, idx) => {
+    e.preventDefault()
+    if (transitionState !== 'idle') return
+    setClickedIndex(idx)
+    setSelectedProject(item)
+    setTransitionState('animating-in')
+  }
+
+  const handleCloseProject = () => {
+    if (transitionState !== 'open') return
+    setTransitionState('animating-out')
   }
 
   return (
@@ -119,7 +335,7 @@ export default function HomePage() {
             key={sec.id}
             className="bg-text absolute left-0 w-full px-10 md:px-20 text-[clamp(10rem,18vw,20rem)] font-black tracking-[-0.02em] leading-[0.85] text-surface-text select-none text-left wrap-break-word"
           >
-            {sec.text}
+            <span>{sec.text}</span>
           </h1>
         ))}
       </div>
@@ -164,28 +380,39 @@ export default function HomePage() {
         {/* Work Section */}
         <section ref={workRef} id="work" className="reveal-on-load w-full relative flex flex-col bg-transparent">
           {[
-            { title: 'OCAD', subtitle: 'Platform for Creatives' },
-            { title: 'ReturnLoop', subtitle: 'Digital Exhibition' },
-            { title: 'PetClear', subtitle: 'Interactive Guide' }
+            { title: 'OCAD', subtitle: 'Platform for Creatives', image: asap1 },
+            { title: 'ReturnLoop', subtitle: 'Digital Exhibition', image: asap2 },
+            { title: 'PetClear', subtitle: 'Interactive Guide', image: asap3 }
           ].map((item, idx) => (
-            <a href="#" key={idx} className="snap-target h-screen w-full relative flex items-center justify-center px-0 md:px-0 group cursor-pointer">
+            <a 
+              href="#" 
+              key={idx} 
+              onClick={(e) => handleProjectClick(e, item, idx)}
+              className="snap-target h-screen w-full relative flex items-center justify-center px-0 md:px-0 group cursor-pointer"
+            >
               <div className="z-2 w-full max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-center">
 
                 {/* Left Content */}
                 <div className="flex flex-col items-end text-right md:w-1/2">
-                  <h2 className="text-[clamp(3rem,3vw,4rem)] font-bold text-heading leading-none">{item.title}</h2>
+                  <h2 
+                    id={`project-title-${idx}`}
+                    className="text-[clamp(3rem,3vw,4rem)] font-bold text-heading leading-none"
+                  >
+                    <span className="inline-block">{item.title}</span>
+                  </h2>
                   <p className="text-xl font-bold text-body mt-1">{item.subtitle}</p>
                   <span className="text-brand font-bold mt-0 group-hover:underline">
                     dive in ↗
                   </span>
                 </div>
 
-                {/* Right Content - iMac G3 */}
-                <div className="w-full md:w-1/2 flex items-start justify-start pointer-events-none pl-30">
-                  <img src={asap1} alt="iMac G3" className="w-full max-w-[300px] h-auto object-contain drop-shadow-2xl transition-transform duration-700 group-hover:scale-105" />
-                  <img src={asap1} alt="iMac G3" className="w-full max-w-[300px] h-auto object-contain drop-shadow-2xl transition-transform duration-700 group-hover:scale-105" />
-                  <img src={asap1} alt="iMac G3" className="w-full max-w-[300px] h-auto object-contain drop-shadow-2xl transition-transform duration-700 group-hover:scale-105" />
-                  <img src={asap1} alt="iMac G3" className="w-full max-w-[300px] h-auto object-contain drop-shadow-2xl transition-transform duration-700 group-hover:scale-105" />
+                {/* Right Content - Mockup */}
+                <div className="w-full md:w-1/2 flex items-start justify-start pointer-events-none md:pl-20 mt-6 md:mt-0">
+                  <img 
+                    src={item.image} 
+                    alt={item.title} 
+                    className="w-full max-w-[320px] h-auto object-contain drop-shadow-2xl transition-transform duration-700 group-hover:scale-105" 
+                  />
                 </div>
 
               </div>
@@ -202,6 +429,51 @@ export default function HomePage() {
         </section>
 
       </div>
+
+      {/* Case Study Detail Container */}
+      {selectedProject && (
+        <div 
+          className="case-study-overlay fixed inset-0 z-40 overflow-y-auto"
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0)',
+            pointerEvents: transitionState === 'open' ? 'auto' : 'none'
+          }}
+        >
+          {/* Dynamic Case Study Background Text inside the white canvas context */}
+          <div className="fixed inset-0 z-0 flex items-center justify-start overflow-hidden pointer-events-none">
+            <h1
+              className="case-study-bg-text absolute left-0 w-full px-10 md:px-20 text-[clamp(10rem,18vw,20rem)] font-black tracking-[-0.02em] leading-[0.85] text-surface-text select-none text-left wrap-break-word pointer-events-none"
+              style={{
+                transform: 'translateY(-22vh)',
+              }}
+            >
+              <span className="inline-block opacity-0">{selectedProject.title}</span>
+            </h1>
+          </div>
+
+          {/* Close Button */}
+          <button
+            onClick={handleCloseProject}
+            className="fixed top-8 right-8 z-50 px-5 py-2.5 bg-black/5 hover:bg-black/10 active:scale-95 border border-black/10 rounded-full font-bold text-xs tracking-wider uppercase text-heading transition-all duration-300 backdrop-blur-md cursor-pointer flex items-center justify-center gap-2 group"
+          >
+            <span className="inline-block transition-transform duration-300 group-hover:rotate-90">✕</span>
+            <span>Close Project</span>
+          </button>
+
+          {/* Case Study Content */}
+          <div className="case-study-content relative z-10 w-full min-h-screen pt-[45vh] pb-32">
+            <div className="max-w-5xl mx-auto px-10 md:px-20">
+              {selectedProject.title === 'OCAD' ? (
+                <OCADCaseStudyView />
+              ) : (
+                <GenericCaseStudyView selectedProject={selectedProject} />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
+
+
