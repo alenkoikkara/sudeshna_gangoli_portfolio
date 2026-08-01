@@ -4,22 +4,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import { useGSAP } from '@gsap/react'
 import Navigation from '../components/Navigation'
-import imacg3Img from '../assets/images/imacg3.png'
-import sunflowerc from '../assets/icons/sunflowerc.png'
-import sunflowerb from '../assets/icons/sunflowerb.png'
-import coffeec from '../assets/icons/coffeec.png'
-import coffeeb from '../assets/icons/coffeeb.png'
-import rollc from '../assets/icons/rollc.png'
-import rollb from '../assets/icons/rollb.png'
-import startupc from '../assets/icons/startupc.png'
-import startupb from '../assets/icons/startupb.png'
 
 import asap1 from '../assets/asap/Container-1.png'
 import asap2 from '../assets/asap/Container-2.png'
 import asap3 from '../assets/asap/Container-3.png'
 
-import { caseStudiesData } from '../data/caseStudiesData'
-import OCADCaseStudyView from '../components/OCADCaseStudyView'
+import ASAPCaseStudyView from '../components/ASAPCaseStudyView'
 import GenericCaseStudyView from '../components/GenericCaseStudyView'
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
@@ -39,9 +29,9 @@ export default function HomePage() {
   const [clickedIndex, setClickedIndex] = useState(null)
 
   const sections = [
-    { ref: homeRef, id: 'home', text: 'Sudeshna Gangoli.' },
-    { ref: workRef, id: 'work', text: 'Work' },
-    { ref: aboutRef, id: 'about', text: 'About' },
+    { id: 'home', text: 'Sudeshna Gangoli.' },
+    { id: 'work', text: 'Work' },
+    { id: 'about', text: 'About' },
   ]
 
   useGSAP(() => {
@@ -64,9 +54,10 @@ export default function HomePage() {
     // Set initial state
     gsap.set(texts, { opacity: 0, y: '100vh' })
 
+    const sectionRefs = [homeRef, workRef, aboutRef]
     sections.forEach((sec, i) => {
       ScrollTrigger.create({
-        trigger: sec.ref.current,
+        trigger: sectionRefs[i].current,
         scroller: containerRef.current,
         start: "top center",
         end: "bottom center",
@@ -129,7 +120,9 @@ export default function HomePage() {
       const targetEl = document.querySelector('.case-study-bg-text span')
       
       if (!sourceEl || !targetEl) {
-        setTransitionState('open')
+        setTimeout(() => {
+          setTransitionState('open')
+        }, 0)
         return
       }
 
@@ -216,9 +209,11 @@ export default function HomePage() {
       const targetEl = document.querySelector('.case-study-bg-text span')
 
       if (!sourceEl || !targetEl) {
-        setSelectedProject(null)
-        setTransitionState('idle')
-        enableScroll()
+        setTimeout(() => {
+          setSelectedProject(null)
+          setTransitionState('idle')
+          enableScroll()
+        }, 0)
         return
       }
 
@@ -351,7 +346,7 @@ export default function HomePage() {
 
         {/* Home Section */}
         <section ref={homeRef} id="home" className="snap-target h-screen w-full relative flex items-center justify-center gap-12 md:gap-24">
-          <div className="grid grid-cols-2 gap-10 absolute top-20 right-20">
+          {/* <div className="grid grid-cols-2 gap-10 absolute top-20 right-20">
             <div className="group relative cursor-pointer flex items-center justify-center">
               <img width={100} src={coffeeb} alt="Coffee" className="transition-opacity duration-300 ease-in-out group-hover:opacity-0" />
               <img width={100} src={coffeec} alt="Coffee Hover" className="absolute top-0 left-0 transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100" />
@@ -368,7 +363,7 @@ export default function HomePage() {
               <img width={100} src={rollb} alt="Roll" className="transition-opacity duration-300 ease-in-out group-hover:opacity-0" />
               <img width={100} src={rollc} alt="Roll Hover" className="absolute top-0 left-0 transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100" />
             </div>
-          </div>
+          </div> */}
           <div className="text-center pointer-events-none z-2">
             <p className="text-[clamp(28px,3.2vw,52px)] text-left font-bold text-body leading-[1.15] tracking-[-0.02em]">
               I am a story teller, blending<br />
@@ -380,7 +375,7 @@ export default function HomePage() {
         {/* Work Section */}
         <section ref={workRef} id="work" className="reveal-on-load w-full relative flex flex-col bg-transparent">
           {[
-            { title: 'OCAD', subtitle: 'Platform for Creatives', image: asap1 },
+            { title: 'ASAP', subtitle: 'Platform for Creatives', image: asap1 },
             { title: 'ReturnLoop', subtitle: 'Digital Exhibition', image: asap2 },
             { title: 'PetClear', subtitle: 'Interactive Guide', image: asap3 }
           ].map((item, idx) => (
@@ -463,8 +458,8 @@ export default function HomePage() {
           {/* Case Study Content */}
           <div className="case-study-content relative z-10 w-full min-h-screen pt-[45vh] pb-32">
             <div className="max-w-5xl mx-auto px-10 md:px-20">
-              {selectedProject.title === 'OCAD' ? (
-                <OCADCaseStudyView />
+              {selectedProject.title === 'ASAP' ? (
+                <ASAPCaseStudyView />
               ) : (
                 <GenericCaseStudyView selectedProject={selectedProject} />
               )}

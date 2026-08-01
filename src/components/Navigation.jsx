@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function Navigation({ activeId, onNavClick }) {
   const navItems = ['work', 'about']
 

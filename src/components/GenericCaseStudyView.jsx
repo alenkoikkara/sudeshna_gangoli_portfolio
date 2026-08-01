@@ -1,4 +1,3 @@
-import React from 'react'
 import { caseStudiesData } from '../data/caseStudiesData'
 
 export default function GenericCaseStudyView({ selectedProject }) {

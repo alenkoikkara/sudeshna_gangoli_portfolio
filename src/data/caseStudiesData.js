@@ -8,8 +8,8 @@ import asap7 from '../assets/asap/Container-7.png'
 import asap8 from '../assets/asap/Container-8.png'
 
 export const caseStudiesData = {
-  OCAD: {
-    title: 'OCAD',
+  ASAP: {
+    title: 'ASAP',
     subtitle: 'Executive Functioning App for Students',
     client: 'OCAD University x Google Scholar Labs',
     role: 'Lead Product Designer',

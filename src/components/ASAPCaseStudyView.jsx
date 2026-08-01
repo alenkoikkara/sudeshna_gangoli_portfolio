@@ -1,12 +1,11 @@
-import React from 'react'
 import { caseStudiesData } from '../data/caseStudiesData'
 import asap1 from '../assets/asap/Container-1.png'
 import asap2 from '../assets/asap/Container-2.png'
 import asap3 from '../assets/asap/Container-3.png'
 import asap4 from '../assets/asap/Container-4.png'
 
-export default function OCADCaseStudyView() {
-  const data = caseStudiesData.OCAD;
+export default function ASAPCaseStudyView() {
+  const data = caseStudiesData.ASAP;
   return (
     <div className="flex flex-col gap-24 text-left">
       {/* Overview & Metadata */}
@@ -140,12 +139,12 @@ export default function OCADCaseStudyView() {
           <div className="md:w-1/2 w-full flex flex-col gap-6">
             <div className="bg-black/2 border border-black/5 rounded-4xl p-3">
               <div className="bg-white rounded-3xl overflow-hidden shadow-sm aspect-16/10 flex items-center justify-center">
-                <img src={asap1} alt="Solution Mockup 1" className="w-full h-full object-cover" />
+                <img src={asap1} alt="Solution Mockup 1" className="w-full h-full object-contain" />
               </div>
             </div>
             <div className="bg-black/2 border border-black/5 rounded-4xl p-3">
               <div className="bg-white rounded-3xl overflow-hidden shadow-sm aspect-16/10 flex items-center justify-center">
-                <img src={asap2} alt="Solution Mockup 2" className="w-full h-full object-cover" />
+                <img src={asap2} alt="Solution Mockup 2" className="w-full h-full object-contain" />
               </div>
             </div>
           </div>
@@ -216,12 +215,12 @@ export default function OCADCaseStudyView() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-black/[0.02] border border-black/5 rounded-[2.5rem] p-3">
             <div className="bg-white rounded-[calc(2.5rem-0.75rem)] overflow-hidden shadow-sm aspect-[16/10] flex items-center justify-center">
-              <img src={asap3} alt="Before pivot mockup" className="w-full h-full object-cover" />
+              <img src={asap3} alt="Before pivot mockup" className="w-full h-full object-contain" />
             </div>
           </div>
           <div className="bg-black/[0.02] border border-black/5 rounded-[2.5rem] p-3">
             <div className="bg-white rounded-[calc(2.5rem-0.75rem)] overflow-hidden shadow-sm aspect-[16/10] flex items-center justify-center">
-              <img src={asap4} alt="After pivot mockup" className="w-full h-full object-cover" />
+              <img src={asap4} alt="After pivot mockup" className="w-full h-full object-contain" />
             </div>
           </div>
         </div>
