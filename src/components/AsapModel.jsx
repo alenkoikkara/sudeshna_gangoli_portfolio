@@ -1,9 +1,10 @@
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
+import gsap from 'gsap'
 import * as THREE from 'three'
 
-export default function AsapModel({ ...props }) {
+export default function AsapModel({ hover = false, ...props }) {
   const group = useRef()
   const { scene } = useGLTF('/asap.glb')
 
@@ -12,6 +13,19 @@ export default function AsapModel({ ...props }) {
       group.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.45) * 0.12
     }
   })
+
+  useEffect(() => {
+    if (!group.current) return
+
+    gsap.to(group.current.scale, {
+      x: hover ? 1.08 : 1,
+      y: hover ? 1.08 : 1,
+      z: hover ? 1.08 : 1,
+      duration: 0.5,
+      ease: 'power2.inOut',
+      overwrite: 'auto'
+    })
+  }, [hover])
 
   const model = useMemo(() => {
     const clonedScene = scene.clone()

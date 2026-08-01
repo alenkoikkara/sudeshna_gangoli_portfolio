@@ -1,4 +1,5 @@
 import { useRef, useState, useLayoutEffect, Suspense } from 'react'
+import { useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
@@ -27,6 +28,7 @@ export default function HomePage() {
   const aboutRef = useRef(null)
 
   const [activeIndex, setActiveIndex] = useState(0)
+  const [hoveredProject, setHoveredProject] = useState(null)
 
   // Transition and Case Study states
   const [selectedProject, setSelectedProject] = useState(null)
@@ -142,7 +144,7 @@ export default function HomePage() {
       disableScroll()
 
       // Hide original title & default background texts
-      gsap.set(sourceEl, { opacity: 0 })
+      gsap.set(sourceEl, { opacity: 0, fontWeight: 700, force3D: false })
       gsap.to('.bg-text', { opacity: 0, duration: 0.4, overwrite: 'auto' })
       
       // Fade out home page inner scroll items
@@ -231,28 +233,34 @@ export default function HomePage() {
       // Hide the details background placeholder
       gsap.set(targetEl, { opacity: 0 })
 
-      // Fade out case study content blocks
+      const scale = sourceRect.width / targetRect.width
       const contentBlocks = gsap.utils.toArray('.case-study-content > div > *')
-      gsap.to(contentBlocks, {
+      const texts = gsap.utils.toArray('.bg-text')
+
+      const tl = gsap.timeline({
+        defaults: { ease: 'power3.inOut' },
+        onComplete: () => {
+          setSelectedProject(null)
+          setTransitionState('idle')
+          setClickedIndex(null)
+          enableScroll()
+        }
+      })
+
+      tl.to(contentBlocks, {
         opacity: 0,
         y: -30,
         filter: 'blur(5px)',
-        duration: 0.6,
-        stagger: 0.05,
-        ease: 'power2.in'
-      })
+        duration: 1.2,
+        stagger: 0.05
+      }, 0)
 
-      // Fade case study overlay back to transparent
-      gsap.to('.case-study-overlay', {
+      tl.to('.case-study-overlay', {
         backgroundColor: 'rgba(255, 255, 255, 0)',
-        duration: 1.0,
-        ease: 'power3.inOut'
-      })
+        duration: 1.4
+      }, 0)
 
-      const scale = sourceRect.width / targetRect.width
-
-      // Animate the actual target element back down to the source list position
-      gsap.fromTo(targetEl,
+      tl.fromTo(targetEl,
         {
           x: 0,
           y: 0,
@@ -264,32 +272,22 @@ export default function HomePage() {
         {
           x: sourceRect.left - targetRect.left,
           y: sourceRect.top - targetRect.top,
-          scale: scale,
+          scale: Math.max(scale * 0.96, 0.08),
           color: sourceStyle.color,
-          opacity: 1,
-          duration: 1.2,
-          ease: 'cubic-bezier(0.32, 0.72, 0, 1)',
-          onComplete: () => {
-            gsap.set(sourceEl, { opacity: 1 })
-            setSelectedProject(null)
-            setTransitionState('idle')
-            setClickedIndex(null)
-            enableScroll()
-          }
-        }
+          opacity: 0,
+          duration: 1.4,
+          ease: 'power3.inOut'
+        },
+        0
       )
 
-      // Fade home list content back in
-      gsap.to(innerRef.current, {
+      tl.to(innerRef.current, {
         opacity: 1,
-        duration: 0.8,
-        ease: 'power2.out',
+        duration: 0.6,
         overwrite: 'auto'
-      })
+      }, 0)
 
-      // Fade default bg text elements back in based on scroll position
-      const texts = gsap.utils.toArray('.bg-text')
-      gsap.to(texts, {
+      tl.to(texts, {
         y: (idx) => {
           if (idx === activeIndex) {
             return activeIndex === 0 ? '0vh' : '-22vh'
@@ -297,10 +295,30 @@ export default function HomePage() {
           return idx < activeIndex ? '-100vh' : '100vh'
         },
         opacity: (idx) => (idx === activeIndex ? 0.1 : 0),
-        duration: 0.8,
+        duration: 1.0,
         ease: 'power2.out',
         overwrite: 'auto'
-      })
+      }, 0)
+
+      tl.fromTo(sourceEl,
+        {
+          opacity: 0,
+          filter: 'blur(8px)',
+          y: 16,
+          scale: 0.9
+        },
+        {
+          opacity: 1,
+          filter: 'blur(0px)',
+          y: 0,
+          scale: 1,
+          fontWeight: 700,
+          duration: 0.45,
+          ease: 'power2.out',
+          overwrite: 'auto'
+        },
+        0.95
+      )
     }
   }, [transitionState, clickedIndex, selectedProject, activeIndex])
 
@@ -390,20 +408,24 @@ export default function HomePage() {
               href="#" 
               key={idx} 
               onClick={(e) => handleProjectClick(e, item, idx)}
-              className="snap-target h-screen w-full relative flex items-center justify-center px-0 md:px-0 group cursor-pointer"
+              className="snap-target h-screen w-full relative flex items-center justify-center px-0 md:px-0 cursor-pointer"
             >
               <div className="z-2 w-full max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-center">
 
                 {/* Left Content */}
-                <div className="flex flex-col items-end text-right md:w-1/2">
+                <div
+                  className="group flex flex-col items-end text-right md:w-1/2"
+                  onMouseEnter={() => setHoveredProject(idx)}
+                  onMouseLeave={() => setHoveredProject(null)}
+                >
                   <h2 
                     id={`project-title-${idx}`}
                     className="text-[clamp(3rem,3vw,4rem)] font-bold text-heading leading-none"
                   >
-                    <span className="inline-block">{item.title}</span>
+                    <span className="inline-block" style={{ fontWeight: 700 }}>{item.title}</span>
                   </h2>
                   <p className="text-xl font-bold text-body mt-1">{item.subtitle}</p>
-                  <span className="text-brand font-bold mt-0 group-hover:underline">
+                  <span className="mt-0 font-bold text-body transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-brand">
                     dive in ↗
                   </span>
                 </div>
@@ -413,7 +435,7 @@ export default function HomePage() {
                   <div className="w-full h-full max-w-120 relative pointer-events-none flex items-center justify-center">
                     {Math.abs(activeIndex - (idx + 1)) <= 1 && (
                       <Canvas
-                        camera={{ position: [0, 0, 6.5], fov: 40 }}
+                        camera={{ position: [0, 0, 6.5], fov: 50 }}
                         gl={{ antialias: true }}
                         style={{ background: 'transparent' }}
                       >
@@ -422,7 +444,7 @@ export default function HomePage() {
                         <directionalLight position={[-5, 5, -5]} intensity={0.5} />
                         <Environment preset="city" />
                         <Suspense fallback={null}>
-                          <AsapModel scale={.9} />
+                          <AsapModel hover={hoveredProject === idx} />
                         </Suspense>
                       </Canvas>
                     )}
