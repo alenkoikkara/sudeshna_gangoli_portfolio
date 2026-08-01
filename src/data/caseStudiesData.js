@@ -102,16 +102,142 @@ export const caseStudiesData = {
   },
   ReturnLoop: {
     title: 'ReturnLoop',
-    subtitle: 'Digital Exhibition',
+    subtitle: 'Frictionless Package Returns',
     client: 'ReturnLoop Co.',
-    role: 'Interactive Developer',
+    role: 'Lead UX Designer',
     timeline: '2 Months (Winter 2025)',
-    services: 'Creative Coding, WebGL, Motion Design',
-    description1: 'ReturnLoop is an experimental digital exhibition exploring the circularity of digital memory. The project showcase investigates how digital files decompose, replicate, and transform as they are shared across networks.',
-    description2: 'We built a high-performance interactive gallery utilising custom WebGL shaders and physics-based interactions. Visitors can manipulate digital artifacts, causing them to break apart and re-form in real time, creating an immersive, kinetic experience.',
+    services: 'UX Research, Interaction Design, Service Design',
     images: [asap5, asap6],
-    challenge: 'Rendering hundreds of interactive 3D physics-based artifacts on mobile browsers without dropping frames or depleting battery life.',
-    solution: 'Optimized GPGPU physics simulations combined with instance rendering in Three.js, moving all calculations to custom shaders and reducing CPU-GPU draw calls to a single unified pass.',
+    
+    aboutTitle: 'About Project',
+    aboutText: "Returning something online takes twelve minutes. It usually takes five days to active find time for it. ReturnLoop connects people who have a package ready to go with drivers already passing through their neighborhoods, so the return happens instantly.",
+    
+    problemHeading: 'The Return I Never Made',
+    problemText: "I bought something online, decided quickly I didn't want it, and never got around to returning it. The package sat in my closet until the window closed. Friends had the same story: not 'I don't want to return things,' but 'I meant to, and then I forgot.' The gap is between intent and execution.",
+    
+    researchHeading: 'Research: Is the problem that people don\'t know where to go, or that getting out the door is the real barrier?',
+    researchSubheading: 'Conducted a CAR-L (Cognitive Appraisals Reflective Logic) study including 8 semi-structured interviews with users aged 21-63 to gather qualitative text and understand friction.',
+    
+    researchFindings: [
+      {
+        title: 'Printer Barrier',
+        desc: "Print label was the primary friction point. Users don't have printer setup at home."
+      },
+      {
+        title: 'Scheduling Fear',
+        desc: "A full day passed in anticipation — user felt 'locked' in. User was reluctant to leave the house, feared missed package."
+      },
+      {
+        title: 'Price vs. Effort',
+        desc: "Price barrier is real but relative — almost nobody objected to $4-$5. Recurring question was why the returner has to bear the effort of dropping it off."
+      }
+    ],
+
+    researchSpotlight: {
+      quote: "I tried to return it three times. The first time the printer was out of ink, the second time the line was too long, and the third time they closed early.",
+      author: "Margaret, 55 — Retired Teacher"
+    },
+
+    competitiveHeading: 'Where ReturnLoop Fits',
+    competitiveSubheading: 'Three core columns appeared across every conversation. Each was directly linked to a service design decision.',
+    competitiveTable: [
+      {
+        feature: 'Scope',
+        uber: 'Eats only',
+        doordash: 'Any retailer',
+        returnloop: 'Any retailer',
+        highlight: true
+      },
+      {
+        feature: 'Context',
+        uber: 'In-app feature',
+        doordash: 'In-app tab',
+        returnloop: 'Standalone',
+        highlight: true
+      },
+      {
+        feature: 'Origin',
+        uber: 'Single trip',
+        doordash: 'Single trip',
+        returnloop: 'Batched',
+        highlight: true
+      },
+      {
+        feature: 'Proof',
+        uber: 'Photo',
+        doordash: 'Photo',
+        returnloop: 'Multi-entity',
+        highlight: true
+      }
+    ],
+    competitiveSummary: 'Driver aggregates: multiple returns in one trip. Keeps cost low.',
+
+    insightsHeading: 'What the research revealed, and what it changed.',
+    insightsTable: [
+      {
+        research: 'Print label was the main friction point — Alex',
+        design: 'A free label-printing service, no printer required.'
+      },
+      {
+        research: '"If I want to return it, I have to print..."',
+        design: 'Monitor driver in real-time, transparency first.'
+      },
+      {
+        research: '"Who is this, and is it verified?" — anxiety tracker',
+        design: 'Driver verification, background checked.'
+      }
+    ],
+
+    pivotHeading: 'The Moment the Design Had to Change',
+    pivotText: 'The first version failed when we completed the human testing. In the interviews, we discovered that user anxiety and trust issues existed: users felt that since they didn\'t know who the driver was, they were letting a stranger take their packages. We realized we had to make driver verification and tracking prominent, shifting from purely functional tracking to human-centric safety.',
+
+    personas: [
+      {
+        name: 'Alex, 28',
+        type: 'The Avoidant Planner',
+        quote: '"No printer. No tape. The box sits in the hallway for weeks."'
+      },
+      {
+        name: 'Margaret, 55',
+        type: 'The Hesitant Outsourcer',
+        quote: '"I don\'t want a stranger taking my package. How do I know it gets there?"'
+      }
+    ],
+
+    journeyMap: [
+      {
+        stage: 'Decide',
+        today: 'I need to return this',
+        returnloop: 'One-tap request'
+      },
+      {
+        stage: 'Prepare',
+        today: 'Print label, pack box',
+        returnloop: 'No label, no tape needed'
+      },
+      {
+        stage: 'Drop-off',
+        today: 'Drive to store',
+        returnloop: 'Driver picks up at door'
+      },
+      {
+        stage: 'Delay',
+        today: 'Wait in line',
+        returnloop: 'Real-time tracking'
+      },
+      {
+        stage: 'Outcome',
+        today: 'Refund received after 5 days',
+        returnloop: 'Instant drop-off verification'
+      }
+    ],
+
+    flowHeading: 'User Flow Map',
+    flowSteps: ['Login', 'Home', 'Scan Label', 'Pick-up Window', 'Live Tracking', 'Carrier Confirmed', 'Chat with Driver'],
+    flowSummary: 'Each step is mapped to solve specific pain points: printing (gone), travel (gone), waiting (gone). Simple design is key. Mobile UI simplifies returns into 3 steps.',
+
+    methodologyHeading: 'Methodology & Reflection',
+    methodologyText: 'We built a return pick-up service. In testing, the prototype was run through 15 simulated returns, and we found that users didn\'t want a cheaper return, they wanted a frictionless return. Uber and DoorDash focused on food delivery. What they didn\'t build is the trust. People don\'t want a cheaper return, they want a verified return where they don\'t have to print anything.'
   },
   PetClear: {
     title: 'PetClear',
@@ -120,10 +246,145 @@ export const caseStudiesData = {
     role: 'Product Strategist',
     timeline: '4 Months (Spring 2026)',
     services: 'UX Research, Information Architecture, Web App Design',
-    description1: 'PetClear is an interactive diagnostic guide and platform for pet health. The project aims to simplify veterinary jargon and provide pet owners with clear, actionable steps during health emergencies.',
-    description2: 'We created a decision-tree based interactive flow that guides users through symptoms, cross-references with local clinical data, and provides clear triage advice. The visual language is calm, reassuring, and highly legible under stressful conditions.',
     images: [asap7, asap8],
-    challenge: 'Designing a medical triage flow that is quick enough for active emergencies but cautious enough to prevent misdiagnoses and liability.',
-    solution: 'A warm, conversational UX flow that gates complex decisions with simple visual choices (icons + clear micro-copy) and integrates direct emergency calling at every stage of the journey.',
+    aboutTitle: 'About Project',
+    aboutText: "Traveling with a pet shouldn't be a guessing game. Every country, airline, and encounter comes with different rules, deadlines, and requirements. PetClear gives you a personalized checklist based on your pet and travel route, showing exactly what you need, where to get it, and when it's due. Everything organized. Everything tracked. No surprises at the airport.",
+    
+    problemHeading: 'Not a failure of effort, but information at exact moments matter the most. PetClear fixes that.',
+    problemText: 'Pet owners have no single place that tells them exactly what their pet needs to travel. Airlines take the payment and say nothing about what comes next. Owners show up at the gate missing a document they never knew existed.',
+    
+    gaps: [
+      {
+        title: 'Information Gap',
+        desc: 'Information is scattered across airline websites, blogs, and government sites.'
+      },
+      {
+        title: 'Trust Gap',
+        desc: 'Official sources conflict, and online forums contain outdated advice.'
+      },
+      {
+        title: 'Memory Gap',
+        desc: 'Deadlines vary widely by country, vaccine, and travel date.'
+      }
+    ],
+
+    researchHeading: 'Research: Pet Policy Pages (110 Pages), 4 Airline Audits, and User Model.',
+    researchSubheading: 'Revealed Drift. We called it "The Policy Gap" — no route-specific animal policies, conflicting requirements.',
+    
+    researchTableTitle: 'Airline Website Audit — 10 Airlines Reviewed',
+    researchTableSubtitle: 'Audits showed standard size and weight, but 0/10 showed route-specific rules, timing rules, or entry/exit formalities.',
+    
+    researchTable: [
+      {
+        rule: 'Air India: No NYC entry mention anywhere on the page',
+        impact: 'Baggage staff have to search for the rule, adding wait'
+      },
+      {
+        rule: 'JetBlue: 10 min transit safety window not stated',
+        impact: 'Some airways have country-specific import rules closed'
+      },
+      {
+        rule: 'Emirates: Class details appear after booking screen',
+        impact: 'British Airways: USD 350 standard fee, window not shown'
+      },
+      {
+        rule: 'United Airlines: Must call station manager directly, no info on detail',
+        impact: 'Authorities not accepting the animal, rules bypass'
+      },
+      {
+        rule: 'Lufthansa: Warning windows on USDA endorsements missing days',
+        impact: 'Abuse: Airline Health certificate expired'
+      }
+    ],
+    
+    researchSummary: [
+      'Policies vary, airlines fail to provide standard checklist.',
+      '7 out of 7 airlines failed to provide complete documentation list for international travel, with most explicitly stating "check with government" for correct requirements.'
+    ],
+
+    persona: {
+      name: 'Amy, 31',
+      tag: 'Cat owner • Domestic & International travel • First-time traveler • Needs guidance & control',
+      wants: [
+        'Simple, outlined step-by-step guidelines',
+        'Safe journey, fully checked',
+        'Continuous check-ins before the flight'
+      ],
+      barriers: [
+        'Airline website details are too vague',
+        'Confusing international forms',
+        'High anxiety, feels like something is missing'
+      ],
+      quote: 'I did everything I was supposed to do. Nobody told me there was more.',
+      scenario: 'USDA endorsement, international travel',
+      mistakes: 'Incorrect signature format, missing USDA stamp — flight can\'t be boarded'
+    },
+
+    solutionHeading: 'PetClear — a standalone tool, not a feature inside an airline app.',
+    solutionText: 'Enter your pet and route. See what documentation you need, where to get them, and how long they take. Everything is clear.',
+    solutionCallout: 'Designed specifically, PetClear converts complex regulations into a visual, organized, and timely format — at the right moment.',
+    solutionTabs: ['Airport scan', 'Project checklist', 'Vaccine tracker', 'Document vault', 'Community'],
+    solutionFeatures: [
+      {
+        title: 'Identify',
+        desc: 'Identify travel, rules, profile'
+      },
+      {
+        title: 'Checklist',
+        desc: 'Route-specific checklist with deadlines'
+      },
+      {
+        title: 'Alerts',
+        desc: 'Timely alerts for country requirements'
+      },
+      {
+        title: 'Vault',
+        desc: 'One place: all docs. Always current'
+      },
+      {
+        title: 'Community',
+        desc: 'Post-travel tips, reminders'
+      }
+    ],
+
+    beforeAfterTable: [
+      {
+        before: 'Search across 5 sources — all say something different',
+        after: 'Single personalized, route checklist generated'
+      },
+      {
+        before: 'Pay fee — no document requirements shown',
+        after: 'Missing docs flagged with exact location/link'
+      },
+      {
+        before: 'Arrive at airport — find out missing document',
+        after: '4-day check — notifications warning of expirations'
+      },
+      {
+        before: 'Denied boarding. Pet left behind.',
+        after: 'Animal verified. Pet boards.'
+      }
+    ],
+
+    impactPoints: [
+      {
+        title: 'Zero anxiety',
+        desc: 'Clear picture of what is required'
+      },
+      {
+        title: 'Support team',
+        desc: 'Help custom emergency check'
+      },
+      {
+        title: 'Safer travel',
+        desc: 'Fewer denied boardings, fewer pets left behind'
+      },
+      {
+        title: 'Confidence',
+        desc: 'Peace of mind when traveling with a beloved pet'
+      }
+    ],
+
+    conclusion: 'The problem was never the rules. It was that nobody made them visible. PetClear makes what already exists visible, organized, and timely for the person who needs it most.'
   }
 }

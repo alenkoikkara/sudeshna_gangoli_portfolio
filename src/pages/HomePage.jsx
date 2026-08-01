@@ -1,16 +1,19 @@
-import { useRef, useState, useLayoutEffect } from 'react'
+import { useRef, useState, useLayoutEffect, Suspense } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import { useGSAP } from '@gsap/react'
+import { Canvas } from '@react-three/fiber'
+import { Environment } from '@react-three/drei'
 import Navigation from '../components/Navigation'
 
-import asap1 from '../assets/asap/Container-1.png'
-import asap2 from '../assets/asap/Container-2.png'
-import asap3 from '../assets/asap/Container-3.png'
+
 
 import ASAPCaseStudyView from '../components/ASAPCaseStudyView'
+import PetClearCaseStudyView from '../components/PetClearCaseStudyView'
+import ReturnLoopCaseStudyView from '../components/ReturnLoopCaseStudyView'
 import GenericCaseStudyView from '../components/GenericCaseStudyView'
+import AsapModel from '../components/AsapModel'
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
@@ -18,7 +21,9 @@ export default function HomePage() {
   const containerRef = useRef(null)
   const innerRef = useRef(null)
   const homeRef = useRef(null)
-  const workRef = useRef(null)
+  const asapRef = useRef(null)
+  const returnLoopRef = useRef(null)
+  const petClearRef = useRef(null)
   const aboutRef = useRef(null)
 
   const [activeIndex, setActiveIndex] = useState(0)
@@ -54,25 +59,26 @@ export default function HomePage() {
     // Set initial state
     gsap.set(texts, { opacity: 0, y: '100vh' })
 
-    const sectionRefs = [homeRef, workRef, aboutRef]
-    sections.forEach((sec, i) => {
+    const sectionRefs = [homeRef, asapRef, returnLoopRef, petClearRef, aboutRef]
+    sectionRefs.forEach((secRef, i) => {
       ScrollTrigger.create({
-        trigger: sectionRefs[i].current,
+        trigger: secRef.current,
         scroller: containerRef.current,
         start: "top center",
         end: "bottom center",
         onToggle: self => {
           if (self.isActive) {
             setActiveIndex(i)
+            const targetTextIndex = i === 0 ? 0 : i === 4 ? 2 : 1
             // Animate texts smoothly
             gsap.to(texts, {
               y: (idx) => {
-                if (idx === i) {
-                  return i === 0 ? '0vh' : '-22vh'
+                if (idx === targetTextIndex) {
+                  return targetTextIndex === 0 ? '0vh' : '-22vh'
                 }
-                return idx < i ? '-100vh' : '100vh'
+                return idx < targetTextIndex ? '-100vh' : '100vh'
               },
-              opacity: (idx) => (idx === i ? 0.1 : 0),
+              opacity: (idx) => (idx === targetTextIndex ? 0.1 : 0),
               duration: 1.2,
               ease: "expo.out",
               overwrite: "auto"
@@ -90,9 +96,9 @@ export default function HomePage() {
       end: "bottom bottom",
       snap: {
         snapTo: 1 / 4, // 5 sections total = 4 scrollable intervals
-        duration: { min: 0.5, max: 1.2 },
-        delay: 0.05,
-        ease: "power3.inOut"
+        duration: { min: 0.2, max: 0.6 },
+        delay: 0.15,
+        ease: "power2.out"
       }
     })
 
@@ -322,7 +328,7 @@ export default function HomePage() {
   }
 
   return (
-    <div ref={containerRef} className="relative w-full h-screen overflow-y-auto overflow-x-hidden bg-white">
+    <div ref={containerRef} className="relative w-full h-screen overflow-y-auto overflow-x-hidden bg-white overscroll-y-none">
       {/* Fixed Background Text */}
       <div className="reveal-on-load fixed inset-0 z-0 flex items-center justify-start overflow-hidden pointer-events-none">
         {sections.map((sec) => (
@@ -337,7 +343,7 @@ export default function HomePage() {
 
       {/* Navigation */}
       <Navigation
-        activeId={sections[activeIndex]?.id}
+        activeId={activeIndex === 0 ? 'home' : activeIndex === 4 ? 'about' : 'work'}
         onNavClick={handleNavClick}
       />
 
@@ -373,13 +379,14 @@ export default function HomePage() {
         </section>
 
         {/* Work Section */}
-        <section ref={workRef} id="work" className="reveal-on-load w-full relative flex flex-col bg-transparent">
+        <section id="work" className="reveal-on-load w-full relative flex flex-col bg-transparent">
           {[
-            { title: 'ASAP', subtitle: 'Platform for Creatives', image: asap1 },
-            { title: 'ReturnLoop', subtitle: 'Digital Exhibition', image: asap2 },
-            { title: 'PetClear', subtitle: 'Interactive Guide', image: asap3 }
+            { title: 'ASAP', subtitle: 'Platform for Creatives' },
+            { title: 'ReturnLoop', subtitle: 'Digital Exhibition' },
+            { title: 'PetClear', subtitle: 'Interactive Guide' }
           ].map((item, idx) => (
             <a 
+              ref={[asapRef, returnLoopRef, petClearRef][idx]}
               href="#" 
               key={idx} 
               onClick={(e) => handleProjectClick(e, item, idx)}
@@ -402,12 +409,24 @@ export default function HomePage() {
                 </div>
 
                 {/* Right Content - Mockup */}
-                <div className="w-full md:w-1/2 flex items-start justify-start pointer-events-none md:pl-20 mt-6 md:mt-0">
-                  <img 
-                    src={item.image} 
-                    alt={item.title} 
-                    className="w-full max-w-[320px] h-auto object-contain drop-shadow-2xl transition-transform duration-700 group-hover:scale-105" 
-                  />
+                <div className="w-full md:w-1/2 h-112.5 md:h-150 flex items-center justify-center md:pl-20 mt-6 md:mt-0">
+                  <div className="w-full h-full max-w-120 relative pointer-events-none flex items-center justify-center">
+                    {Math.abs(activeIndex - (idx + 1)) <= 1 && (
+                      <Canvas
+                        camera={{ position: [0, 0, 6.5], fov: 40 }}
+                        gl={{ antialias: true }}
+                        style={{ background: 'transparent' }}
+                      >
+                        <ambientLight intensity={1.5} />
+                        <directionalLight position={[5, 10, 5]} intensity={2.0} castShadow />
+                        <directionalLight position={[-5, 5, -5]} intensity={0.5} />
+                        <Environment preset="city" />
+                        <Suspense fallback={null}>
+                          <AsapModel scale={.9} />
+                        </Suspense>
+                      </Canvas>
+                    )}
+                  </div>
                 </div>
 
               </div>
@@ -460,6 +479,10 @@ export default function HomePage() {
             <div className="max-w-5xl mx-auto px-10 md:px-20">
               {selectedProject.title === 'ASAP' ? (
                 <ASAPCaseStudyView />
+              ) : selectedProject.title === 'PetClear' ? (
+                <PetClearCaseStudyView />
+              ) : selectedProject.title === 'ReturnLoop' ? (
+                <ReturnLoopCaseStudyView />
               ) : (
                 <GenericCaseStudyView selectedProject={selectedProject} />
               )}

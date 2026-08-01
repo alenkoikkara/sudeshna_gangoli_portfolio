@@ -43,7 +43,7 @@ export default function GenericCaseStudyView({ selectedProject }) {
       {/* Challenge & Solution Bento Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
         {/* Challenge Card - Double Bezel */}
-        <div className="bg-black/[0.02] border border-black/5 rounded-[2rem] p-8 flex flex-col justify-between min-h-[300px]">
+        <div className="bg-black/2 border border-black/5 rounded-4xl p-8 flex flex-col justify-between min-h-75">
           <span className="rounded-full px-3 py-1 bg-black/5 text-[10px] uppercase tracking-[0.2em] font-semibold text-body w-fit">
             The Challenge
           </span>
@@ -53,7 +53,7 @@ export default function GenericCaseStudyView({ selectedProject }) {
         </div>
 
         {/* Solution Card - Double Bezel */}
-        <div className="bg-brand/5 border border-brand/10 rounded-[2rem] p-8 flex flex-col justify-between min-h-[300px]">
+        <div className="bg-brand/5 border border-brand/10 rounded-4xl p-8 flex flex-col justify-between min-h-75">
           <span className="rounded-full px-3 py-1 bg-brand/10 text-[10px] uppercase tracking-[0.2em] font-semibold text-brand w-fit">
             The Solution
           </span>
@@ -66,8 +66,8 @@ export default function GenericCaseStudyView({ selectedProject }) {
       {/* Image Gallery - Double Bezel Cards */}
       <div className="flex flex-col gap-12">
         {projectData?.images?.map((img, i) => (
-          <div key={i} className="bg-black/[0.02] border border-black/5 rounded-[2.5rem] p-3 md:p-4">
-            <div className="bg-white rounded-[calc(2.5rem-0.75rem)] overflow-hidden shadow-sm aspect-[16/10] flex items-center justify-center">
+          <div key={i} className="bg-black/2 border border-black/5 rounded-[2.5rem] p-3 md:p-4">
+            <div className="bg-white rounded-[1.75rem] overflow-hidden shadow-sm aspect-16/10 flex items-center justify-center">
               <img 
                 src={img} 
                 alt={`Case study gallery ${i + 1}`} 

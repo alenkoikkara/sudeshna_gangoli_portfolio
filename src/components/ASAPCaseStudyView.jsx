@@ -165,7 +165,7 @@ export default function ASAPCaseStudyView() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {data.insightGrid.map((p, i) => (
-            <div key={i} className="bg-black/1 border border-black/5 rounded-[2rem] p-8 flex flex-col justify-between min-h-[180px]">
+            <div key={i} className="bg-black/1 border border-black/5 rounded-4xl p-8 flex flex-col justify-between min-h-45">
               <div>
                 <h5 className="text-base font-bold text-heading">{p.name}</h5>
                 <span className="text-[10px] uppercase tracking-wider font-semibold text-muted block mb-4">{p.tag}</span>
@@ -193,16 +193,16 @@ export default function ASAPCaseStudyView() {
         {/* Before / After Columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* Before */}
-          <div className="border border-red-500/20 bg-red-500/[0.01] rounded-[2rem] p-8">
+          <div className="border border-red-500/20 bg-red-500/1 rounded-4xl p-8">
             <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-red-600 block mb-2">{data.pivotBefore.label}</span>
             <h4 className="text-2xl font-black text-heading mb-4 line-through decoration-red-500/40">{data.pivotBefore.title}</h4>
             <p className="text-sm text-muted leading-relaxed font-semibold">{data.pivotBefore.desc}</p>
           </div>
 
           {/* After */}
-          <div className="border border-green-500/20 bg-green-500/[0.01] rounded-[2rem] p-8">
+          <div className="border border-green-500/20 bg-green-500/1 rounded-4xl p-8">
             <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-green-600 block mb-2">{data.pivotAfter.label}</span>
-            <h4 className="text-2xl font-black text-heading mb-4 text-green-600">{data.pivotAfter.title}</h4>
+            <h4 className="text-2xl font-black text-heading mb-4">{data.pivotAfter.title}</h4>
             <p className="text-sm text-body leading-relaxed font-semibold">{data.pivotAfter.desc}</p>
           </div>
         </div>
@@ -213,13 +213,13 @@ export default function ASAPCaseStudyView() {
 
         {/* Pivot Mockups */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-black/[0.02] border border-black/5 rounded-[2.5rem] p-3">
-            <div className="bg-white rounded-[calc(2.5rem-0.75rem)] overflow-hidden shadow-sm aspect-[16/10] flex items-center justify-center">
+          <div className="bg-black/2 border border-black/5 rounded-[2.5rem] p-3">
+            <div className="bg-white rounded-[1.75rem] overflow-hidden shadow-sm aspect-16/10 flex items-center justify-center">
               <img src={asap3} alt="Before pivot mockup" className="w-full h-full object-contain" />
             </div>
           </div>
-          <div className="bg-black/[0.02] border border-black/5 rounded-[2.5rem] p-3">
-            <div className="bg-white rounded-[calc(2.5rem-0.75rem)] overflow-hidden shadow-sm aspect-[16/10] flex items-center justify-center">
+          <div className="bg-black/2 border border-black/5 rounded-[2.5rem] p-3">
+            <div className="bg-white rounded-[1.75rem] overflow-hidden shadow-sm aspect-16/10 flex items-center justify-center">
               <img src={asap4} alt="After pivot mockup" className="w-full h-full object-contain" />
             </div>
           </div>
@@ -237,7 +237,7 @@ export default function ASAPCaseStudyView() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {data.lessons.map((l, i) => (
-            <div key={i} className="bg-black/[0.01] border border-black/5 rounded-[2rem] p-8">
+            <div key={i} className="bg-black/1 border border-black/5 rounded-4xl p-8">
               <h5 className="text-lg font-bold text-heading mb-3">{l.title}</h5>
               <p className="text-sm text-body leading-relaxed font-semibold">{l.desc}</p>
             </div>
@@ -256,7 +256,7 @@ export default function ASAPCaseStudyView() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {data.reflections.map((r, i) => (
-            <div key={i} className="bg-black/[0.01] border border-black/5 rounded-[2rem] p-8">
+            <div key={i} className="bg-black/1 border border-black/5 rounded-4xl p-8">
               <h5 className="text-base font-bold text-heading mb-4 border-b border-black/5 pb-2">{r.title}</h5>
               <p className="text-xs text-muted leading-relaxed font-semibold">{r.desc}</p>
             </div>
