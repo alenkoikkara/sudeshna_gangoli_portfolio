@@ -433,21 +433,22 @@ export default function HomePage() {
                 {/* Right Content - Mockup */}
                 <div className="w-full md:w-1/2 h-112.5 md:h-150 flex items-center justify-center md:pl-20 mt-6 md:mt-0">
                   <div className="w-full h-full max-w-120 relative pointer-events-none flex items-center justify-center">
-                    {Math.abs(activeIndex - (idx + 1)) <= 1 && (
-                      <Canvas
-                        camera={{ position: [0, 0, 6.5], fov: 50 }}
-                        gl={{ antialias: true }}
-                        style={{ background: 'transparent' }}
-                      >
-                        <ambientLight intensity={1.5} />
-                        <directionalLight position={[5, 10, 5]} intensity={2.0} castShadow />
-                        <directionalLight position={[-5, 5, -5]} intensity={0.5} />
-                        <Environment preset="city" />
-                        <Suspense fallback={null}>
-                          <AsapModel hover={hoveredProject === idx} />
-                        </Suspense>
-                      </Canvas>
-                    )}
+                    <Canvas
+                      camera={{ position: [0, 0, 6.5], fov: 50 }}
+                      gl={{ antialias: true }}
+                      style={{ background: 'transparent' }}
+                    >
+                      <ambientLight intensity={1.5} />
+                      <directionalLight position={[5, 10, 5]} intensity={2.0} castShadow />
+                      <directionalLight position={[-5, 5, -5]} intensity={0.5} />
+                      <Environment preset="city" />
+                      <Suspense fallback={null}>
+                        <AsapModel
+                          hover={hoveredProject === idx}
+                          isVisible={Math.abs(activeIndex - (idx + 1)) <= 1}
+                        />
+                      </Suspense>
+                    </Canvas>
                   </div>
                 </div>
 

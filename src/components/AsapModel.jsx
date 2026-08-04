@@ -4,8 +4,9 @@ import { useGLTF } from '@react-three/drei'
 import gsap from 'gsap'
 import * as THREE from 'three'
 
-export default function AsapModel({ hover = false, ...props }) {
+export default function AsapModel({ hover = false, isVisible = true, ...props }) {
   const group = useRef()
+  const hasInitialized = useRef(false)
   const { scene } = useGLTF('/asap.glb')
 
   useFrame((state) => {
@@ -17,15 +18,48 @@ export default function AsapModel({ hover = false, ...props }) {
   useEffect(() => {
     if (!group.current) return
 
-    gsap.to(group.current.scale, {
-      x: hover ? 1.08 : 1,
-      y: hover ? 1.08 : 1,
-      z: hover ? 1.08 : 1,
-      duration: 0.5,
-      ease: 'power2.inOut',
-      overwrite: 'auto'
-    })
-  }, [hover])
+    const targetScale = hover ? 1.08 : isVisible ? 1 : 0.94
+    const targetY = hover ? 0.02 : isVisible ? 0 : 0.16
+    const targetX = isVisible ? 0 : -0.45
+    const startX = isVisible ? 0.45 : 0
+    const startY = isVisible ? 0.12 : 0.16
+
+    if (!hasInitialized.current) {
+      gsap.set(group.current.scale, { x: 0.94, y: 0.94, z: 0.94 })
+      gsap.set(group.current.position, { x: startX, y: startY })
+      hasInitialized.current = true
+    }
+
+    gsap.fromTo(group.current.scale,
+      {
+        x: hover ? 1.04 : isVisible ? 0.92 : 0.94,
+        y: hover ? 1.04 : isVisible ? 0.92 : 0.94,
+        z: hover ? 1.04 : isVisible ? 0.92 : 0.94,
+      },
+      {
+        x: targetScale,
+        y: targetScale,
+        z: targetScale,
+        duration: 0.55,
+        ease: 'power2.inOut',
+        overwrite: 'auto'
+      }
+    )
+
+    gsap.fromTo(group.current.position,
+      {
+        x: startX,
+        y: startY,
+      },
+      {
+        x: targetX,
+        y: targetY,
+        duration: 0.55,
+        ease: 'power2.inOut',
+        overwrite: 'auto'
+      }
+    )
+  }, [hover, isVisible])
 
   const model = useMemo(() => {
     const clonedScene = scene.clone()
